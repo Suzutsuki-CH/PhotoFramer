@@ -4,7 +4,7 @@ My photo-framer helps you automatically frame your photo and embed camera parame
 
 ## Dependency
 
-You will need to install `PIL`, `numpy`, and `os` to run this program. 
+You will need to install `PIL`, `numpy`, `tqdm`, and `os` to run this program. 
 
 **Important**: Your photo must have **exif data** for this program to function properly.
 

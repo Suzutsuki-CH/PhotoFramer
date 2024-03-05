@@ -3,6 +3,7 @@ from PIL import ImageDraw, ImageFont
 from PIL.ExifTags import TAGS
 import numpy as np
 import os
+from tqdm import tqdm
 
 def processPhoto(im_name, shrink_f=0.6514, sourceFolder="./source/", outputFolder="./output/", suffix="_o"):
     # Path to the image or video
@@ -76,7 +77,7 @@ def processPhoto(im_name, shrink_f=0.6514, sourceFolder="./source/", outputFolde
     canvas.paste(new_image, (position[0], position[1]))
 
     # Custom font style and font size
-    size1 = int(max(width*shrink_factor,height*shrink_factor)*(80/3376)+0.5)
+    size1 = int(max(width*shrink_factor,height*shrink_factor)*(78/3376)+0.5)
     size2 = int(60/75*size1+0.5)
     size3 = int(260/75*size1+0.5)
 
@@ -152,6 +153,7 @@ def processPhoto(im_name, shrink_f=0.6514, sourceFolder="./source/", outputFolde
     # Saving the photo
     canvas.save(f"./output/{imagename[:-4]}_o.png")
 
+
 def main():
 
     """    
@@ -174,12 +176,14 @@ def main():
     all_export = input()
 
     if all_export.capitalize() == "Y":
-        for im_name in PhotoList:
+        for im_name in tqdm(PhotoList):
             processPhoto(im_name, shrink_f=sf, sourceFolder="./source/", outputFolder="./output/", suffix="_o")
     elif all_export.capitalize() == "N":
         print(f"Enter the index of number you want to process (0 to {str(len(PhotoList)-1)}):")
         idx = int(input())
         processPhoto(PhotoList[idx], shrink_f=sf, sourceFolder="./source/", outputFolder="./output/", suffix="_o")
+
+
 
 if __name__ ==  '__main__':
     main()
