@@ -4,7 +4,7 @@
 # git has its own built in compression methods
 *.png
 *.jpg
-*.ipynb
+photo-framer.ipynb
 *.ai
 
 
