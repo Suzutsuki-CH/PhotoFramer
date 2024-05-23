@@ -4,8 +4,10 @@
 # git has its own built in compression methods
 *.png
 *.jpg
-photo-framer.ipynb
+*.ipynb
 *.ai
+*.jpeg
+*.JPEG
 
 
 # folder to ignore

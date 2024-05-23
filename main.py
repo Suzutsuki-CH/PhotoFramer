@@ -45,8 +45,10 @@ def processPhoto(im_name, shrink_f=0.6514, sourceFolder="./source/", outputFolde
     # Creating New Canvas
     scale = np.array([1.15,1.35])
     portrait_factor = 1
-    
-    if width < height: 
+
+    is_p = width < height
+
+    if is_p: 
         portrait_factor = 1.1
         scale = [1.15,1.30]
 
@@ -57,7 +59,11 @@ def processPhoto(im_name, shrink_f=0.6514, sourceFolder="./source/", outputFolde
     canvas = Image.new('RGB', (canvas_size[0], canvas_size[1]), (255,255,219))
 
     # Creating background
-    enlarged_image = image.resize((int(max_edge/height*width), max_edge))
+    if is_p:
+        enlarged_image = image.resize((max_edge, int(max_edge/width*height)))
+    else:
+        enlarged_image = image.resize((int(max_edge/height*width), max_edge))
+    
     # Blurring background
     enlarged_image_blurred = enlarged_image.filter(ImageFilter.GaussianBlur(25))
     # Dimming Background
@@ -68,11 +74,11 @@ def processPhoto(im_name, shrink_f=0.6514, sourceFolder="./source/", outputFolde
 
     left = 0
     right = canvas_size[0]
-    top = (enlarged_size[1] - canvas_size[0])/2
+    top = int((enlarged_size[1] - canvas_size[1])/2)
     bottom = top + canvas_size[1]
 
-
     cropped = enlarged_image_blurred.crop((left, top, right, bottom))
+
 
     # Checking if the cropped background fits the canvas
     # print(list(cropped.size), canvas_size)
