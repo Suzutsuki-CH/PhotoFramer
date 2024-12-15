@@ -39,6 +39,9 @@ def processPhoto(im_name, shrink_f=0.6514, sourceFolder="./source/", outputFolde
             data = data.decode()
         exif_dict.update({f"{tag}": data})
     
+    # print(exif_dict)
+    
+    
     # Creating New Canvas
     ## Scale relative to the shrinked image, I set it to be fixed
     ## Feel Free to change if needed
@@ -93,7 +96,6 @@ def processPhoto(im_name, shrink_f=0.6514, sourceFolder="./source/", outputFolde
     canvas.paste(new_image, (position[0], position[1]))
 
     # Custom font style and font size
-    # Custom font style and font size
     size1 = int(max(width*shrink_factor,height*shrink_factor)*(75/3376)*portrait_factor+0.5)
     size2 = int(60/75*size1*portrait_factor+0.5)
     size3 = int(260/75*size1*portrait_factor+0.5)
@@ -109,7 +111,7 @@ def processPhoto(im_name, shrink_f=0.6514, sourceFolder="./source/", outputFolde
     # Setting Splitting
     split1 = int(80/75*size1*portrait_factor+0.5)
     split2 = int(100/75*size1*portrait_factor+0.5)
-    split3 = int(split2*0.6*portrait_factor)
+    split3 = int(split2*0.6*portrait_factor*0.6)
 
     text_top = np.array(position.copy()) + np.array([0,new_size[1]])
 
@@ -122,6 +124,8 @@ def processPhoto(im_name, shrink_f=0.6514, sourceFolder="./source/", outputFolde
     # Lens Model
     canvas_draw.text((text_top[0], text_top[1]+split3+split1), text = exif_dict["Make"] + " " + exif_dict["Model"], font=cmu_bold, fill =(255, 255, 255))
     # Camera Make
+
+    # canvas_draw.text((text_top[0], text_top[1]+split3+split1*2), text = "LUMIX G VARIO 35-100/F2.8II", font=cmu_bold, fill=(255, 255, 255))
     canvas_draw.text((text_top[0], text_top[1]+split3+split1*2), text = exif_dict["LensModel"], font=cmu_bold, fill=(255, 255, 255))
     # Date & Time
     canvas_draw.text((text_top[0], text_top[1]+split3+split1*3), text = exif_dict["DateTimeOriginal"].replace(":", "-"), font=cmu_bold, fill=(255, 255, 255))
@@ -202,6 +206,8 @@ def main():
 
     if all_export.capitalize() == "Y":
         for im_name in tqdm(PhotoList):
+
+            processPhoto(im_name, shrink_f=sf, sourceFolder="./source/", outputFolder="./output/", suffix="_o")
             try:
                 processPhoto(im_name, shrink_f=sf, sourceFolder="./source/", outputFolder="./output/", suffix="_o")
             except: 
